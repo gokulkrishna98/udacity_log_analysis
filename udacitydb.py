@@ -28,8 +28,7 @@ def populararticles():
 
         articlepath = name[i][0].replace("-", " ")
         end = len(articlepath)
-        s = "select title from articles where title like '%"
-        + articlepath[1:end] + "%'"
+        s = "select title from articles where title like '%" + articlepath[1:end] + "%'"
         c.execute(s)
         new = c.fetchall()
 
@@ -77,7 +76,7 @@ def popularauthors():
         else:
             # comparing articlepath with titles to get author id
             articlepath = i[0].split('-', 3)[2].replace("'", "")
-            s = " select author from articles where"+" replace(upper(title),'''','') like upper('%" + articlepath + "%')"
+            s = " select author from articles where"+" replace(upper(title),'''','') like upper('%"+ articlepath + "%')"
             c.execute(s)
             authorid = c.fetchall()
 
