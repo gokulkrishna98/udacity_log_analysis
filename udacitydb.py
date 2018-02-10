@@ -80,7 +80,7 @@ def popularauthors():
             s = " select author from articles where"+
             +" replace(upper(title),'''','') like upper('%"
             + articlepath + "%')"
-            c.execute(sqlcommand)
+            c.execute(s)
             authorid = c.fetchall()
 
             # counting views for author and if error pass it
