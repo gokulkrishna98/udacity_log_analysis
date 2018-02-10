@@ -56,7 +56,7 @@ def popularauthors():
     c.execute("""select split_part(path,'/',3), count(*) as count
                  from log where status like '200 OK'
                 group by path
-                orderby count desc;""")
+                order by count desc;""")
     titlecountdata = c.fetchall()
 
     # flag to avoid first field which is empty
@@ -77,9 +77,7 @@ def popularauthors():
         else:
             # comparing articlepath with titles to get author id
             articlepath = i[0].split('-', 3)[2].replace("'", "")
-            s = " select author from articles where"+
-            +" replace(upper(title),'''','') like upper('%"
-            + articlepath + "%')"
+            s = " select author from articles where"+" replace(upper(title),'''','') like upper('%" + articlepath + "%')"
             c.execute(s)
             authorid = c.fetchall()
 
