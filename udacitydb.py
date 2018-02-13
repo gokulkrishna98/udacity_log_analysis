@@ -2,7 +2,7 @@
 import psycopg2
 import operator
 
-# function to print the top 3 articles
+# function to print the top 3 articles !!!
 
 
 def populararticles():
@@ -28,7 +28,12 @@ def populararticles():
 
         articlepath = name[i][0].replace("-", " ")
         end = len(articlepath)
+<<<<<<< HEAD
+        s = """select title from articles where
+            title like '%""" + articlepath[1:end] + "%'"
+=======
         s = "select title from articles where title like '%" + articlepath[1:end] + "%'"
+>>>>>>> 5c4b648cd18ad597edd5da24cc6fad9a3613a55c
         c.execute(s)
         new = c.fetchall()
 
@@ -76,7 +81,13 @@ def popularauthors():
         else:
             # comparing articlepath with titles to get author id
             articlepath = i[0].split('-', 3)[2].replace("'", "")
+<<<<<<< HEAD
+            s = """ select author from articles
+                where""" + """ replace(upper(title), '''','')
+                """ + """ like upper('%""" + articlepath + "%')"
+=======
             s = " select author from articles where"+" replace(upper(title),'''','') like upper('%"+ articlepath + "%')"
+>>>>>>> 5c4b648cd18ad597edd5da24cc6fad9a3613a55c
             c.execute(s)
             authorid = c.fetchall()
 
@@ -104,10 +115,11 @@ def popularauthors():
         authorvotedetails[i] = articlesvotes[authorid[0][0]]
 
     # sorting the dictionary by values (i.e. views)
-    #pls make exception for pep8 guide
+    # pls make exception for pep8 guide
+
     sortedauthordetails = sorted(authorvotedetails.items(),
-                                key=operator.itemgetter(1),
-                                reverse=True)
+                                 key=operator.itemgetter(1),
+                                 reverse=True)
 
     # printing the details
     for i in sortedauthordetails:
@@ -123,11 +135,11 @@ def errorcount():
     # connecting to database
     db = psycopg2.connect("dbname=news")
     c = db.cursor()
-    '''
-    selecting date from time and counting article views with no error and
-    grouping and ordering by dates
-    '''
-    c.execute("""select to_char(time::timestamp::date,'Mon dd,yyyy') as dates,count(*)
+    # selecting date from time and counting article views with no error and
+    # grouping and ordering by dates
+
+    c.execute("""select to_char(time::timestamp::date,'Mon dd,yyyy')
+                as dates,count(*)
                 as count from log where status='200 OK' group by dates order
                 by dates;""")
     # getting it to an object
@@ -137,10 +149,10 @@ def errorcount():
                 as count from log where status !='200 OK' group by dates order
                 by dates;""")
     errorviewdata = c.fetchall()
-    '''
-    selecting date from time and counting article views with error and
-    grouping and ordering by dates
-    '''
+
+    # selecting date from time and counting article views with error and
+    # grouping and ordering by dates
+
     count = 0
     for i in successviewdata:
         # calculating error percentage for each date
