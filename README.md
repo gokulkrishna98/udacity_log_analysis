@@ -1,4 +1,3 @@
-
 # udacity_log_analysis
 log analysis....
 
@@ -18,7 +17,7 @@ It is a reporting tool which answers followin questions from new database
 2. run the command ``` python udacitydb.py``` in the terminal to run the script.
 3. You get the output..
 
-## Creating view top3
+## Creating view articlecount
 ``` create view articlecount as 
       select replace(split_part(path,'/',3),'-',' ') as pathtitle, count(*) as count 
       from log 
