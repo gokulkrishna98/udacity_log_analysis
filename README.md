@@ -1,4 +1,5 @@
-  # udacity_log_analysis
+
+# udacity_log_analysis
 log analysis....
 
 ## About the Project
@@ -18,7 +19,8 @@ It is a reporting tool which answers followin questions from new database
 3. You get the output..
 
 ## Creating view articlecount
-```   create view articlecount as 
+```   
+    create view articlecount as 
       select replace(split_part(path,'/',3),'-',' ') as pathtitle, count(*) as count 
       from log 
       where status like '200 OK' and  replace(split_part(path,'/',3),'-',' ') != ''
