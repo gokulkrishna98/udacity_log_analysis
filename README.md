@@ -14,9 +14,11 @@ It is a reporting tool which answers followin questions from new database
 - [x] psycopg2 python library
 
 ## Procedure
-1. Unzip the newsdata.zip to get the sql data file and make sure both python file and sql file in same dir
-2. run the command ``` python udacitydb.py``` in the terminal to run the script.
-3. You get the output..
+1. Unzip the newsdata.zip to get the sql data file and make sure both python file and sql file in same directory
+2. Then run the command ``` psql -d news -f newsdata.sql ```
+3. You have successfully setup your data.
+4. run the command ``` python udacitydb.py``` in the terminal to run the script.
+5. You get the output..
 
 ## Creating view articlecount
 ```   
