@@ -33,77 +33,18 @@ def popularauthors():
     # connencting to database .....
     db = psycopg2.connect("dbname=news")
     c = db.cursor()
+    sqlcommand = """select name,sum(count) as scount from authorcount,authors
+                     where authors.id = authorcount.author
+                     group by name
+                     order by scount desc;"""
 
-    # finding relation between authors and articles
-    c.execute(""" select articles.author, articles.title from articles,authors
-             where articles.author=authors.id""")
-    authortitledata = c.fetchall()
+    c.execute(sqlcommand)
+    authordetails = c.fetchall()
 
-    # getting the count of articles
-    c.execute("""select split_part(path,'/',3), count(*) as count
-                 from log where status like '200 OK'
-                group by path
-                order by count desc;""")
-    titlecountdata = c.fetchall()
+    for i in authordetails:
+        details = "%s - %s" % (i[0], i[1])
+        print(details)
 
-    # flag to avoid first field which is empty
-    flag = 0
-
-    # calculation in python
-
-    # index represents author id
-    articlesvotes = [0, 0, 0, 0, 0]
-    # dictionary for author vote details
-    authorvotedetails = {}
-    authorname = []
-    for i in titlecountdata:
-        # avoiding first titlecountdata which is empty
-        if flag == 0:
-            flag = 1
-            continue
-        else:
-            # comparing articlepath with titles to get author id
-            articlepath = i[0].split('-', 3)[2].replace("'", "")
-            s = """ select author from articles
-                where""" + """ replace(upper(title), '''','')
-                """ + """ like upper('%""" + articlepath + "%')"
-            c.execute(s)
-            authorid = c.fetchall()
-            # counting views for author and if error pass it
-            try:
-                articlesvotes[authorid[0][0]] += i[1]
-            except:
-                pass
-            else:
-                pass
-
-    # selecting author name using author id
-    for i in range(1, 5):
-        sqlcommand = "select name from authors where id = %d" % (i)
-        c.execute(sqlcommand)
-        authornameraw = c.fetchall()
-        # list of author names
-        authorname.append(authornameraw[0][0])
-
-    # making dictionary with author name and views
-    for i in authorname:
-        sqlcommand = "select id from authors where name = '" + i + "'"
-        c.execute(sqlcommand)
-        authorid = c.fetchall()
-        authorvotedetails[i] = articlesvotes[authorid[0][0]]
-
-    # sorting the dictionary by values (i.e. views)
-    # pls make exception for pep8 guide
-
-    sortedauthordetails = sorted(authorvotedetails.items(),
-                                 key=operator.itemgetter(1),
-                                 reverse=True)
-
-    # printing the details
-    for i in sortedauthordetails:
-        finalstr = "%s - %s" % (i[0], i[1])
-        print(finalstr)
-    db.close()
     return
 
 
