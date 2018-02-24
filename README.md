@@ -32,7 +32,7 @@ It is a reporting tool which answers followin questions from new database
  
  ## Creating view authorcount
  ```
-  create view author count as
+  create view authorcount as
     select author,title,count from articlecount inner join articles 
     on upper(replace(replace(title,'''',''),'lot of','many')) 
     like upper(concat('%',split_part(pathtitle,' ',2),' ', split_part(pathtitle,' ',3),'%')) ;
